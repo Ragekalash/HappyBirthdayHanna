@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Hanna ✨</title>
+    <!-- Importing Google Fonts -->
+    <!-- Added 'Caveat' for the funky aesthetic text -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@300;400;500&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        /* ==========================================
+           1. CONFIGURATION & VARIABLES
+        ========================================== */
+        :root {
+            /* Palette */
+            --bg-cream: #FDFBF7;
+            --mocha-dark: #6B4F4F;
+            --mocha-darker: #4a3636;
+            --mocha-light: #A88888;
+            --dusty-rose: #EBCBCB;
+            --soft-pink: #F7E1E3;
+            --accent-gold: #D4AF37;
+            --text-main: #5D4037;
+            
+            /* Gradients */
+            --dream-gradient: linear-gradient(135deg, #FDFBF7 0%, #F7E1E3 100%);
+            --card-gradient: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 100%);
+            
+            /* Effects */
+            --glass-blur: blur(12px);
+            --soft-shadow: 0 10px 40px rgba(107, 79, 79, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--bg-cream);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.8;
+        }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+
+        /* ==========================================
+           2. BACKGROUND ANIMATIONS
+        ========================================== */
+        .background-blobs {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.6;
+            animation: floatBlob 20s infinite alternate;
+        }
+        .blob-1 { top: -10%; right: -10%; width: 500px; height: 500px; background: var(--soft-pink); }
+        .blob-2 { bottom: -10%; left: -10%; width: 400px; height: 400px; background: var(--dusty-rose); animation-delay: -5s; }
+        .blob-3 { top: 40%; left: 30%; width: 300px; height: 300px; background: #F0E6D2; animation-delay: -10s; opacity: 0.4; }
+
+        @keyframes floatBlob {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
+        }
+
+        .hearts-container { position: fixed; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
+        .floating-heart {
+            position: absolute;
+            bottom: -50px;
+            animation: floatUp 8s linear forwards;
+            font-size: 20px;
+        }
+        @keyframes floatUp { to { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
+
+        /* ==========================================
+           3. UI COMPONENTS
+        ========================================== */
+        .music-btn {
+            position: fixed;
+            top: 30px; right: 30px;
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--mocha-light);
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            box-shadow: var(--soft-shadow);
+        }
+        .music-btn:hover { transform: scale(1.05); background: white; }
+        .music-btn svg { width: 20px; fill: var(--mocha-dark); }
+
+        /* ==========================================
+           4. LAYOUT SECTIONS
+        ========================================== */
+        section {
+            min-height: 100vh;
+            padding: 80px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        section.visible { opacity: 1; transform: translateY(0); }
+
+        /* ==========================================
+           5. HERO SECTION
+        ========================================== */
+        .hero { text-align: center; position: relative; }
+        
+        .hero h1 {
+            font-size: clamp(4rem, 15vw, 9rem);
+            background: linear-gradient(45deg, var(--mocha-darker), var(--mocha-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+
+        .hero p {
+            /* Changed Font to Caveat for funky aesthetic */
+            font-family: 'Caveat', cursive;
+            font-size: 3.5rem; /* Made larger to show off the font */
+            color: var(--mocha-light);
+            font-weight: 700;
+            margin-top: 10px;
+            transform: rotate(-3deg); /* Slight tilt for funkiness */
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.5);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            animation: bounce 2s infinite;
+            color: var(--mocha-light);
+        }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
+
+        /* ==========================================
+           6. MARQUEE STRIP
+        ========================================== */
+        .marquee-strip {
+            background: var(--mocha-light);
+            color: #FFF;
+            padding: 12px 0;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            z-index: 5;
+            margin: 0; 
+            box-shadow: 0 4px 10px rgba(107, 79, 79, 0.1);
+            transform: rotate(-1deg) scale(1.02);
+        }
+        .marquee-inner { display: inline-block; animation: scroll-left 35s linear infinite; }
+        .marquee-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-right: 40px;
+            font-weight: 700;
+        }
+        @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* ==========================================
+           7. GALLERY SECTION (GRID LAYOUT)
+        ========================================== */
+        .gallery-container {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            justify-items: center;
+            perspective: 1000px; 
+            padding: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .gallery-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .card {
+            width: 100%;
+            max-width: 280px;
+            height: 380px;
+            position: relative;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(50px) scale(0.9);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .card.in-view { opacity: 1; transform: translateY(0) scale(1); }
+
+        .content {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .card:hover .content { transform: rotateY(180deg); }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .back {
+            background-color: #FFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .back::before {
+            position: absolute;
+            content: ' ';
+            display: block;
+            width: 160px;
+            height: 160%;
+            background: linear-gradient(90deg, transparent, var(--mocha-light), var(--dusty-rose), var(--mocha-light), transparent);
+            animation: rotation_481 5000ms infinite linear;
+        }
+
+        .back-content {
+            position: absolute;
+            width: 98%;
+            height: 98%;
+            background-color: #FFF;
+            border-radius: 18px;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            z-index: 2;
+        }
+
+        .card-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--soft-pink);
+            position: relative;
+            filter: blur(15px);
+            animation: floating 2600ms infinite linear;
+        }
+        .card-circle#bottom { background-color: var(--dusty-rose); left: 30px; top: 0px; width: 120px; height: 120px; animation-delay: -800ms; }
+        .card-circle#right { background-color: var(--mocha-light); left: 80px; top: -50px; width: 40px; height: 40px; animation-delay: -1800ms; opacity: 0.5; }
+
+        .back-content h3 {
+            z-index: 5;
+            font-size: 1.4rem;
+            text-align: center;
+            padding: 0 10px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .front { transform: rotateY(180deg); background-color: #fff; }
+        .front img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; }
+
+        @keyframes rotation_481 { 0% { transform: rotateZ(0deg); } 100% { transform: rotateZ(360deg); } }
+        @keyframes floating { 0% { transform: translateY(0px); } 50% { transform: translateY(10px); } 100% { transform: translateY(0px); } }
+
+        /* ==========================================
+           8. MESSAGE SECTION
+        ========================================== */
+        .message-card {
+            max-width: 800px;
+            background: var(--card-gradient);
+            padding: 60px 40px;
+            border-radius: 40px;
+            box-shadow: var(--soft-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            text-align: center;
+            position: relative;
+        }
+        
+        .message-card h2 { color: var(--mocha-dark); margin-bottom: 30px; font-size: 2.5rem; }
+        
+        /* Updated Message Body Style */
+        .message-body { 
+            font-size: 1.15rem; 
+            color: var(--text-main); 
+            white-space: pre-line; 
+            font-style: italic; /* Italic text as requested */
+            line-height: 1.9;
+        }
+
+        /* Styling for the bold "Hanna" */
+        .message-body strong {
+            font-weight: 700;
+            font-style: normal; /* Make the bold name upright for contrast, or remove to keep italic */
+            color: var(--mocha-darker);
+            font-size: 1.25rem;
+        }
+
+        /* ==========================================
+           9. VIDEO SECTION
+        ========================================== */
+        .video-section h2 { margin-bottom: 5px; }
+        .video-subtitle {
+            font-family: 'Quicksand', sans-serif;
+            color: var(--mocha-light);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .video-wrapper {
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            background: #000;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        .play-video-btn {
+            background: var(--mocha-dark);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: transform 0.2s, background 0.2s;
+            box-shadow: 0 5px 15px rgba(107, 79, 79, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .play-video-btn:hover {
+            transform: translateY(-2px);
+            background: var(--mocha-light);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 4rem; }
+            .message-card { padding: 40px 20px; }
+            section { padding: 60px 15px; }
+            .hero p { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ANIMATED BACKGROUND -->
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- AUDIO PLAYER -->
+    <audio id="bgMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-piano-reflections-26.mp3" type="audio/mpeg">
+    </audio>
+
+    <button class="music-btn" id="musicBtn" aria-label="Toggle Music">
+        <svg id="iconMute" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+        <svg id="iconPlay" viewBox="0 0 24 24" style="display:none;"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+    </button>
+
+    <!-- 1. HERO SECTION -->
+    <section class="hero" id="home">
+        <h1>Hanna</h1>
+        <!-- Updated font to be funky and aesthetic (Caveat) -->
+        <p>Happy birthday Dumbass</p>
+        
+        <div class="scroll-hint">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- MARQUEE STRIP -->
+    <div class="marquee-strip">
+        <div class="marquee-inner">
+            <span class="marquee-text">High Maintenance 💅 main character energy ✨ chaos but cute 🌪️ pretty and problematic 🎀 bossy but right 👑</span>
+            <span class="marquee-text">High Maintenance 💅 main character energy ✨ chaos but cute 🌪️ pretty and problematic 🎀 bossy but right 👑</span>
+            <span class="marquee-text">High Maintenance 💅 main character energy ✨ chaos but cute 🌪️ pretty and problematic 🎀 bossy but right 👑</span>
+            <span class="marquee-text">High Maintenance 💅 main character energy ✨ chaos but cute 🌪️ pretty and problematic 🎀 bossy but right 👑</span>
+        </div>
+    </div>
+
+    <!-- 2. GALLERY SECTION -->
+    <section class="gallery">
+        <h3 style="margin-bottom: 40px; font-style: italic; opacity: 0.7;">The Lore</h3>
+        <div class="gallery-container" id="cardGallery">
+            <!-- Cards injected via JS -->
+        </div>
+    </section>
+
+    <!-- 3. MESSAGE SECTION -->
+    <section class="letter">
+        <div class="message-card">
+            <h2>To My Dearest Friend</h2>
+            <!-- Message Body: Italic, with Bold 'Hanna' -->
+            <div class="message-body" id="msgContent">
+                <!-- Content Injected via JS -->
+            </div>
+            <div style="font-size: 30px; margin-top: 30px;">🍰 ☕ 🌸</div>
+        </div>
+    </section>
+
+    <!-- 4. NEW VIDEO SECTION -->
+    <section class="video-section">
+        <h2>Hanna the yapper</h2>
+        <div class="video-subtitle">Most authentic channel</div>
+        
+        <button class="play-video-btn" id="playVideoBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            Play Video
+        </button>
+
+        <div class="video-wrapper">
+            <!-- PLACEHOLDER VIDEO: Replace src with your video link -->
+            <video id="mainVideo" controls poster="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=80">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-girl-laughing-in-the-sun-3354-large.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </section>
+
+    <script>
+        /* ==========================================
+           DATA & CONTENT
+        ========================================== */
+        
+        // Updated Message Text (Using HTML to support Bold tags)
+        // I added "Dear Hanna" at the start to ensure the name "Hanna" exists to be bolded.
+        const birthdayMessage = `Dear <strong>Hanna</strong>,
+
+        You’re one of the most interesting, pure-hearted and fun people I’ve ever met. You’ve annoyed me more than anyone, but you’ve also been there for me, cared for me, and understood me better than most. I always thought I didn’t need anyone. I could handle myself and take care of people around me. But you showed me how happy a person can actually be when they meet someone good.
+
+        I’ve met a lot of people in Tamil Nadu, Mumbai and Lavasa, but I’ve never come across a heart as pure as yours. People might say your good nature makes you a pushover, but don’t ever let that get to you. That kindness is one of the best things about you. It’s what sets you apart.
+
+        In a world where relationships are built on transactions, thank you for actually caring about me. We’ve had such a strong and strange and unique connection that I don’t even know how to put it into words. What you mean to me is something I’ll never fully be able to explain. Just know that you’re an amazing person and you’re going to do great things in life. Never stop yapping and never stop annoying me.
+
+        Happy birthday, you dumbass.`;
+
+        /* --- PASTE YOUR IMAGE LINKS HERE --- */
+        const photos = [
+            { url: "https://images.unsplash.com/photo-1512413914633-b5043f4041ea?w=600", caption: "Caffeine Queen ☕" },
+            { url: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600", caption: "Slay All Day 💅" },
+            { url: "https://images.unsplash.com/photo-1522748906645-95d8adfd52c7?w=600", caption: "Pretty Things 🌸" },
+            { url: "https://images.unsplash.com/photo-1490750967868-58cb75063ed4?w=600", caption: "Brunch Date? 🥂" },
+            { url: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=600", caption: "Aesthetic ✨" },
+            { url: "https://images.unsplash.com/photo-1550614000-4b9519e07927?w=600", caption: "Party Time 🎉" }
+        ];
+
+        /* ==========================================
+           APP LOGIC
+        ========================================== */
+
+        // 1. Load Message (Using innerHTML to render the <strong> tag)
+        document.getElementById('msgContent').innerHTML = birthdayMessage;
+
+        // 2. Generate Flip Cards
+        const gallery = document.getElementById('cardGallery');
+        photos.forEach(photo => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="content">
+                    <div class="back">
+                        <div class="back-content">
+                            <div class="card-circle"></div>
+                            <div class="card-circle" id="bottom"></div>
+                            <div class="card-circle" id="right"></div>
+                            <h3>${photo.caption}</h3>
+                        </div>
+                    </div>
+                    <div class="front">
+                        <img src="${photo.url}" alt="${photo.caption}">
+                    </div>
+                </div>
+            `;
+            gallery.appendChild(card);
+        });
+
+        // 3. Scroll Reveal
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                } else {
+                    entry.target.classList.remove('in-view');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.card').forEach(card => cardObserver.observe(card));
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('section').forEach(sec => sectionObserver.observe(sec));
+
+        // 4. Audio Control
+        const musicBtn = document.getElementById('musicBtn');
+        const audio = document.getElementById('bgMusic');
+        const iconMute = document.getElementById('iconMute');
+        const iconPlay = document.getElementById('iconPlay');
+        audio.volume = 0.5;
+
+        musicBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        iconMute.style.display = 'none';
+                        iconPlay.style.display = 'block';
+                    }).catch(error => {
+                        console.log("Audio playback error: " + error);
+                        iconMute.style.display = 'block';
+                        iconPlay.style.display = 'none';
+                    });
+                }
+            } else {
+                audio.pause();
+                iconMute.style.display = 'block';
+                iconPlay.style.display = 'none';
+            }
+        });
+
+        // 5. Video Control (New)
+        const playVideoBtn = document.getElementById('playVideoBtn');
+        const mainVideo = document.getElementById('mainVideo');
+
+        playVideoBtn.addEventListener('click', () => {
+            mainVideo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            mainVideo.play();
+        });
+
+        // 6. Floating Hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = Math.random() > 0.5 ? '💖' : '✨';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 5 + 's';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            document.getElementById('heartsContainer').appendChild(heart);
+            setTimeout(() => heart.remove(), 8000);
+        }
+        setInterval(createHeart, 1500);
+
+        // 7. Fireworks Logic
+        function triggerFireworks() {
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 999 };
+            const randomInRange = (min, max) => Math.random() * (max - min) + min;
+            const interval = setInterval(() => {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+                const particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+        setTimeout(triggerFireworks, 3000);
+        setInterval(triggerFireworks, 45000);
+
+    </script>
+</body>
+</html>
