@@ -80,6 +80,17 @@
         }
         @keyframes floatUp { to { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
 
+        /* Canvas for Confetti - Fixed to prevent getBoundingClientRect errors */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
         /* ==========================================
            3. UI COMPONENTS
         ========================================== */
@@ -426,6 +437,9 @@
 </head>
 <body>
 
+    <!-- Explicit Canvas for Confetti -->
+    <canvas id="confetti-canvas"></canvas>
+
     <!-- ANIMATED BACKGROUND -->
     <div class="background-blobs">
         <div class="blob blob-1"></div>
@@ -436,10 +450,9 @@
     <div class="hearts-container" id="heartsContainer"></div>
 
     <!-- AUDIO PLAYER -->
-    <!-- Updated with reliable source -->
+    <!-- Updated with local source -->
     <audio id="bgMusic" loop preload="auto">
-        <source src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Gymnopedie_No_1.ogg" type="audio/ogg">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-piano-reflections-26.mp3" type="audio/mpeg"> <!-- Fallback -->
+        <source src="./Hanna%2010.mp3" type="audio/mpeg">
     </audio>
 
     <button class="music-btn" id="musicBtn" aria-label="Toggle Music">
@@ -474,7 +487,6 @@
         <div class="gallery-container" id="cardGallery">
             <!-- Cards injected via JS -->
         </div>
-        <p style="font-size: 0.8rem; margin-top: 20px; color: var(--mocha-light);">(Tap cards to flip)</p>
     </section>
 
     <!-- 3. MESSAGE SECTION -->
@@ -524,12 +536,12 @@
         Happy birthday, you dumbass.`;
 
         const photos = [
-            { url: "./Hanna%201.jpg", caption: "Caffeine Queen ☕" },
-            { url: "./Hanna%202.jpg", caption: "Slay All Day 💅" },
-            { url: "./Hanna%203.jpg", caption: "Pretty Things 🌸" },
-            { url: "./Hanna%205.jpg", caption: "Brunch Date? 🥂" },
-            { url: "./Hanna%206.jpg", caption: "Aesthetic ✨" },
-            { url: "./Hanna%208.jpg", caption: "Party Time 🎉" }
+            { url: "./Hanna%201.jpg", caption: "Aesthetic ✨" },
+            { url: "./Hanna%202.jpg", caption: "Slaying all day 💅" },
+            { url: "./Hanna%203.jpg", caption: "Certified Cutie 🎀" },
+            { url: "./Hanna%205.jpg", caption: "Limited Edition 🌟" },
+            { url: "./Hanna%206.jpg", caption: "Skincare Paglu 🌸" },
+            { url: "./Hanna%208.jpg", caption: "Sassy Diva Era 💃" }
         ];
 
         /* ==========================================
@@ -591,7 +603,7 @@
         const audio = document.getElementById('bgMusic');
         const iconMute = document.getElementById('iconMute');
         const iconPlay = document.getElementById('iconPlay');
-        audio.volume = 0.5;
+        audio.volume = 0.2; // Set volume to 20%
 
         musicBtn.addEventListener('click', () => {
             if (audio.paused) {
@@ -641,10 +653,19 @@
         }
         setInterval(createHeart, 1500);
 
-        // 7. Fireworks Logic (Safe Implementation)
+        // 7. Fireworks Logic (Safe Implementation with explicit canvas)
         function triggerFireworks() {
             try {
-                if (typeof confetti === 'function') {
+                // Ensure canvas exists and confetti library is loaded
+                const canvas = document.getElementById('confetti-canvas');
+                
+                if (canvas && typeof confetti !== 'undefined') {
+                    // Create an instance bound to the canvas
+                    const myConfetti = confetti.create(canvas, {
+                        resize: true,
+                        useWorker: true
+                    });
+
                     const duration = 5 * 1000;
                     const animationEnd = Date.now() + duration;
                     const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 999 };
@@ -655,11 +676,12 @@
                         if (timeLeft <= 0) return clearInterval(interval);
                         
                         const particleCount = 50 * (timeLeft / duration);
-                        confetti(Object.assign({}, defaults, { 
+                        
+                        myConfetti(Object.assign({}, defaults, { 
                             particleCount, 
                             origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } 
                         }));
-                        confetti(Object.assign({}, defaults, { 
+                        myConfetti(Object.assign({}, defaults, { 
                             particleCount, 
                             origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } 
                         }));
@@ -670,7 +692,7 @@
             }
         }
 
-        // Trigger strictly after load to avoid getBoundingClientRect errors on elements not yet rendered
+        // Trigger strictly after load
         window.addEventListener('load', () => {
             setTimeout(triggerFireworks, 3000);
             setInterval(triggerFireworks, 45000);
