@@ -134,7 +134,8 @@
         .hero { text-align: center; position: relative; }
         
         .hero h1 {
-            font-size: clamp(4rem, 15vw, 9rem);
+            /* Increased size by ~10% from previous version */
+            font-size: clamp(4.5rem, 16vw, 10rem); 
             background: linear-gradient(45deg, var(--mocha-darker), var(--mocha-dark));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -145,7 +146,8 @@
 
         .hero p {
             font-family: 'Caveat', cursive;
-            font-size: 3.5rem;
+            /* Increased size by ~10% */
+            font-size: 4rem; 
             color: var(--mocha-light);
             font-weight: 700;
             margin-top: 10px;
@@ -208,10 +210,11 @@
             }
         }
 
+        /* INCREASED CARD SIZE BY 10% */
         .card {
             width: 100%;
-            max-width: 280px;
-            height: 380px;
+            max-width: 310px; /* Increased from 280px */
+            height: 420px;    /* Increased from 380px */
             position: relative;
             cursor: pointer;
             opacity: 0;
@@ -412,28 +415,25 @@
         }
 
         /* ==========================================
-           MOBILE RESPONSIVENESS FIXES
+           MOBILE RESPONSIVENESS
         ========================================== */
         @media (max-width: 768px) {
-            /* 3. Reduce space for Hero Section on Mobile */
-            .hero {
-                min-height: 55vh; /* Reduced from 100vh so it doesn't take full screen */
-                padding-top: 80px; /* Reduced padding */
-                padding-bottom: 20px;
-                justify-content: flex-start; /* Aligns content to top area */
-            }
-
-            .hero h1 { font-size: 3.5rem; margin-bottom: 0; }
-            .hero p { font-size: 2rem; margin-top: 5px; }
-            .scroll-hint { bottom: 20px; }
-
+            /* Reverted Hero section to full height but kept fonts readable */
+            .hero h1 { font-size: 3.8rem; margin-bottom: 0; }
+            .hero p { font-size: 2.2rem; margin-top: 5px; }
+            
             .message-card { padding: 30px 20px; }
             .video-section h2 { font-size: 2.8rem; } 
             .video-subtitle { font-size: 1.2rem; }
             section { padding: 40px 15px; }
             .marquee-text { font-size: 1rem; margin-right: 20px; }
-            .gallery-container { gap: 25px; }
-            .card { max-width: 100%; width: 280px; }
+            .gallery-container { gap: 30px; }
+            
+            /* Ensure cards fit on mobile with the new 10% increase */
+            .card { 
+                max-width: 100%; 
+                width: 310px; /* Matching the desktop increased size */
+            }
         }
     </style>
 </head>
@@ -596,7 +596,7 @@
         const audio = document.getElementById('bgMusic');
         const iconMute = document.getElementById('iconMute');
         const iconPlay = document.getElementById('iconPlay');
-        audio.volume = 0.15; // 1. Reduced Volume by ~30% (from 0.2 to 0.15)
+        audio.volume = 0.15; // Volume adjusted to 15%
 
         musicBtn.addEventListener('click', () => {
             if (audio.paused) {
@@ -629,7 +629,6 @@
                 mainVideo.play();
             });
 
-            // 2. STOP MUSIC ON VIDEO PLAY
             mainVideo.addEventListener('play', () => {
                 if (!audio.paused) {
                     audio.pause();
