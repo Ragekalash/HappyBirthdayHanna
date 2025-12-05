@@ -335,31 +335,49 @@
             color: var(--mocha-darker);
             font-size: 1.8rem;
         }
+        
+        /* Reduce bottom padding for Message Section (as requested) */
+        section.letter {
+            padding-bottom: 20px; 
+        }
 
         /* ==========================================
            9. VIDEO SECTION
         ========================================== */
+        section.video-section {
+            padding-top: 20px; /* Reduced top padding */
+        }
+
         .video-section { text-align: center; }
-        .video-section h2 { margin-bottom: 5px; }
+        
+        /* Typography Updates */
+        .video-section h2 { 
+            margin-bottom: 5px; 
+            font-size: 3.5rem; /* Increased size by ~75% */
+            color: var(--mocha-darker);
+        }
+        
         .video-subtitle {
             font-family: 'Quicksand', sans-serif;
             color: var(--mocha-light);
             text-transform: uppercase;
             letter-spacing: 2px;
-            font-size: 0.9rem;
+            font-size: 1.5rem; /* Increased size by ~65% */
             margin-bottom: 30px;
             font-weight: 700;
         }
 
+        /* Portrait Video Wrapper */
         .video-wrapper {
             width: 100%;
-            max-width: 800px;
+            max-width: 350px; /* Constrained width for portrait */
             position: relative;
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 20px 50px rgba(0,0,0,0.1);
             background: #000;
-            aspect-ratio: 16/9;
+            aspect-ratio: 9/16; /* Portrait Aspect Ratio */
+            margin: 0 auto;
         }
 
         video {
@@ -396,8 +414,10 @@
             .hero h1 { font-size: 3.5rem; }
             .hero p { font-size: 2rem; }
             .message-card { padding: 30px 20px; }
-            .message-card h2 { font-size: 2rem; }
-            section { padding: 50px 15px; }
+            /* Adjusted typography for mobile */
+            .video-section h2 { font-size: 2.8rem; } 
+            .video-subtitle { font-size: 1.2rem; }
+            section { padding: 40px 15px; }
             .marquee-text { font-size: 1rem; margin-right: 20px; }
             .gallery-container { gap: 25px; }
             .card { max-width: 100%; width: 280px; }
@@ -416,8 +436,10 @@
     <div class="hearts-container" id="heartsContainer"></div>
 
     <!-- AUDIO PLAYER -->
-    <audio id="bgMusic" loop>
-        <source src="https://assets.mixkit.co/music/preview/mixkit-piano-reflections-26.mp3" type="audio/mpeg">
+    <!-- Updated with reliable source -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Gymnopedie_No_1.ogg" type="audio/ogg">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-piano-reflections-26.mp3" type="audio/mpeg"> <!-- Fallback -->
     </audio>
 
     <button class="music-btn" id="musicBtn" aria-label="Toggle Music">
@@ -477,8 +499,9 @@
         </button>
 
         <div class="video-wrapper">
+            <!-- Updated to Portrait Video -->
             <video id="mainVideo" controls poster="./Hanna%201.jpg">
-                <source src="./Hanna%207.mp4" type="video/mp4">
+                <source src="./Hanna%209.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
@@ -579,6 +602,8 @@
                         iconPlay.style.display = 'block';
                     }).catch(error => {
                         console.log("Audio playback error: " + error);
+                        // Fallback handling if auto-play blocked
+                        alert("Tap again to play music (Browser restriction)");
                         iconMute.style.display = 'block';
                         iconPlay.style.display = 'none';
                     });
