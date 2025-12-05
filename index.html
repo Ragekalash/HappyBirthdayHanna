@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday Hanna ✨</title>
     <!-- Importing Google Fonts -->
-    <!-- Added 'Caveat' for the funky aesthetic text -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@300;400;500&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Added weights 600 & 700 to Quicksand for better bold support -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@300;400;500;600;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
     <!-- Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
@@ -134,13 +134,12 @@
         }
 
         .hero p {
-            /* Changed Font to Caveat for funky aesthetic */
             font-family: 'Caveat', cursive;
-            font-size: 3.5rem; /* Made larger to show off the font */
+            font-size: 3.5rem;
             color: var(--mocha-light);
             font-weight: 700;
             margin-top: 10px;
-            transform: rotate(-3deg); /* Slight tilt for funkiness */
+            transform: rotate(-3deg);
             text-shadow: 2px 2px 0px rgba(255,255,255,0.5);
         }
 
@@ -187,7 +186,7 @@
             max-width: 900px;
             display: grid;
             grid-template-columns: 1fr;
-            gap: 40px;
+            gap: 30px;
             justify-items: center;
             perspective: 1000px; 
             padding: 20px;
@@ -208,6 +207,7 @@
             opacity: 0;
             transform: translateY(50px) scale(0.9);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .card.in-view { opacity: 1; transform: translateY(0) scale(1); }
@@ -221,7 +221,10 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
         }
 
-        .card:hover .content { transform: rotateY(180deg); }
+        @media (hover: hover) {
+            .card:hover .content { transform: rotateY(180deg); }
+        }
+        .card.flipped .content { transform: rotateY(180deg); }
 
         .front, .back {
             position: absolute;
@@ -303,30 +306,35 @@
             border: 1px solid rgba(255, 255, 255, 0.9);
             text-align: center;
             position: relative;
+            margin: 0 10px;
         }
         
         .message-card h2 { color: var(--mocha-dark); margin-bottom: 30px; font-size: 2.5rem; }
         
-        /* Updated Message Body Style */
         .message-body { 
             font-size: 1.15rem; 
             color: var(--text-main); 
             white-space: pre-line; 
-            font-style: italic; /* Italic text as requested */
+            font-style: italic; 
             line-height: 1.9;
+            /* Increased weight by ~15% (from 400 to 500) for better readability */
+            font-weight: 500; 
         }
 
-        /* Styling for the bold "Hanna" */
         .message-body strong {
+            /* Using Playfair for the name to match the aesthetic & bold request */
+            font-family: 'Playfair Display', serif;
             font-weight: 700;
-            font-style: normal; /* Make the bold name upright for contrast, or remove to keep italic */
+            font-style: normal; 
             color: var(--mocha-darker);
-            font-size: 1.25rem;
+            font-size: 1.4rem; /* Slightly larger for emphasis */
+            letter-spacing: 0.5px;
         }
 
         /* ==========================================
            9. VIDEO SECTION
         ========================================== */
+        .video-section { text-align: center; }
         .video-section h2 { margin-bottom: 5px; }
         .video-subtitle {
             font-family: 'Quicksand', sans-serif;
@@ -346,11 +354,14 @@
             overflow: hidden;
             box-shadow: 0 20px 50px rgba(0,0,0,0.1);
             background: #000;
+            aspect-ratio: 16/9;
         }
 
         video {
             width: 100%;
+            height: 100%;
             display: block;
+            object-fit: cover;
         }
 
         .play-video-btn {
@@ -368,6 +379,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            margin: 0 auto 20px auto;
         }
         
         .play-video-btn:hover {
@@ -376,10 +388,14 @@
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 4rem; }
-            .message-card { padding: 40px 20px; }
-            section { padding: 60px 15px; }
-            .hero p { font-size: 2.5rem; }
+            .hero h1 { font-size: 3.5rem; }
+            .hero p { font-size: 2rem; }
+            .message-card { padding: 30px 20px; }
+            .message-card h2 { font-size: 2rem; }
+            section { padding: 50px 15px; }
+            .marquee-text { font-size: 1rem; margin-right: 20px; }
+            .gallery-container { gap: 25px; }
+            .card { max-width: 100%; width: 280px; }
         }
     </style>
 </head>
@@ -407,7 +423,6 @@
     <!-- 1. HERO SECTION -->
     <section class="hero" id="home">
         <h1>Hanna</h1>
-        <!-- Updated font to be funky and aesthetic (Caveat) -->
         <p>Happy birthday Dumbass</p>
         
         <div class="scroll-hint">
@@ -420,10 +435,9 @@
     <!-- MARQUEE STRIP -->
     <div class="marquee-strip">
         <div class="marquee-inner">
-            <span class="marquee-text">High Maintenance 💅 main character energy ✨ chaos but cute 🌪️ pretty and problematic 🎀 bossy but right 👑</span>
-            <span class="marquee-text">High Maintenance 💅 main character energy ✨ chaos but cute 🌪️ pretty and problematic 🎀 bossy but right 👑</span>
-            <span class="marquee-text">High Maintenance 💅 main character energy ✨ chaos but cute 🌪️ pretty and problematic 🎀 bossy but right 👑</span>
-            <span class="marquee-text">High Maintenance 💅 main character energy ✨ chaos but cute 🌪️ pretty and problematic 🎀 bossy but right 👑</span>
+            <span class="marquee-text">High Maintenance 💅 main character energy ✨ Yapping queen 🗣️  pretty and problematic 🎀 bossy but right 👑</span>
+            <span class="marquee-text">High Maintenance 💅 main character energy ✨ Yapping queen 🗣️  pretty and problematic 🎀 bossy but right 👑</span>
+            <span class="marquee-text">High Maintenance 💅 main character energy ✨ Yapping queen 🗣️  pretty and problematic 🎀 bossy but right 👑</span>
         </div>
     </div>
 
@@ -433,13 +447,13 @@
         <div class="gallery-container" id="cardGallery">
             <!-- Cards injected via JS -->
         </div>
+        <p style="font-size: 0.8rem; margin-top: 20px; color: var(--mocha-light);">(Tap cards to flip)</p>
     </section>
 
     <!-- 3. MESSAGE SECTION -->
     <section class="letter">
         <div class="message-card">
             <h2>To My Dearest Friend</h2>
-            <!-- Message Body: Italic, with Bold 'Hanna' -->
             <div class="message-body" id="msgContent">
                 <!-- Content Injected via JS -->
             </div>
@@ -447,7 +461,7 @@
         </div>
     </section>
 
-    <!-- 4. NEW VIDEO SECTION -->
+    <!-- 4. VIDEO SECTION -->
     <section class="video-section">
         <h2>Hanna the yapper</h2>
         <div class="video-subtitle">Most authentic channel</div>
@@ -458,9 +472,8 @@
         </button>
 
         <div class="video-wrapper">
-            <!-- PLACEHOLDER VIDEO: Replace src with your video link -->
-            <video id="mainVideo" controls poster="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=80">
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-girl-laughing-in-the-sun-3354-large.mp4" type="video/mp4">
+            <video id="mainVideo" controls poster="./Hanna%201.jpg">
+                <source src="./Hanna%207.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
@@ -471,9 +484,8 @@
            DATA & CONTENT
         ========================================== */
         
-        // Updated Message Text (Using HTML to support Bold tags)
-        // I added "Dear Hanna" at the start to ensure the name "Hanna" exists to be bolded.
-        const birthdayMessage = `Dear <strong>Hanna</strong>,
+        // Updated text with specific bold styling for "onnum pavam alla Hanna"
+        const birthdayMessage = `Dear <strong>onnum pavam alla Hanna</strong>,
 
         You’re one of the most interesting, pure-hearted and fun people I’ve ever met. You’ve annoyed me more than anyone, but you’ve also been there for me, cared for me, and understood me better than most. I always thought I didn’t need anyone. I could handle myself and take care of people around me. But you showed me how happy a person can actually be when they meet someone good.
 
@@ -483,21 +495,20 @@
 
         Happy birthday, you dumbass.`;
 
-        /* --- PASTE YOUR IMAGE LINKS HERE --- */
         const photos = [
-            { url: "https://images.unsplash.com/photo-1512413914633-b5043f4041ea?w=600", caption: "Caffeine Queen ☕" },
-            { url: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600", caption: "Slay All Day 💅" },
-            { url: "https://images.unsplash.com/photo-1522748906645-95d8adfd52c7?w=600", caption: "Pretty Things 🌸" },
-            { url: "https://images.unsplash.com/photo-1490750967868-58cb75063ed4?w=600", caption: "Brunch Date? 🥂" },
-            { url: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=600", caption: "Aesthetic ✨" },
-            { url: "https://images.unsplash.com/photo-1550614000-4b9519e07927?w=600", caption: "Party Time 🎉" }
+            { url: "./Hanna%201.jpg", caption: "Caffeine Queen ☕" },
+            { url: "./Hanna%202.jpg", caption: "Slay All Day 💅" },
+            { url: "./Hanna%203.jpg", caption: "Pretty Things 🌸" },
+            { url: "./Hanna%205.jpg", caption: "Brunch Date? 🥂" },
+            { url: "./Hanna%206.jpg", caption: "Aesthetic ✨" },
+            { url: "./Hanna%208.jpg", caption: "Party Time 🎉" }
         ];
 
         /* ==========================================
            APP LOGIC
         ========================================== */
 
-        // 1. Load Message (Using innerHTML to render the <strong> tag)
+        // 1. Load Message
         document.getElementById('msgContent').innerHTML = birthdayMessage;
 
         // 2. Generate Flip Cards
@@ -505,6 +516,10 @@
         photos.forEach(photo => {
             const card = document.createElement('div');
             card.className = 'card';
+            card.addEventListener('click', function() {
+                this.classList.toggle('flipped');
+            });
+
             card.innerHTML = `
                 <div class="content">
                     <div class="back">
@@ -516,7 +531,7 @@
                         </div>
                     </div>
                     <div class="front">
-                        <img src="${photo.url}" alt="${photo.caption}">
+                        <img src="${photo.url}" alt="${photo.caption}" onerror="this.src='https://placehold.co/400x600?text=Photo+Not+Found'">
                     </div>
                 </div>
             `;
@@ -570,14 +585,18 @@
             }
         });
 
-        // 5. Video Control (New)
+        // 5. Video Control
         const playVideoBtn = document.getElementById('playVideoBtn');
         const mainVideo = document.getElementById('mainVideo');
 
-        playVideoBtn.addEventListener('click', () => {
-            mainVideo.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            mainVideo.play();
-        });
+        if (playVideoBtn && mainVideo) {
+            playVideoBtn.addEventListener('click', () => {
+                if(mainVideo) {
+                    mainVideo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    mainVideo.play();
+                }
+            });
+        }
 
         // 6. Floating Hearts
         function createHeart() {
@@ -592,22 +611,40 @@
         }
         setInterval(createHeart, 1500);
 
-        // 7. Fireworks Logic
+        // 7. Fireworks Logic (Safe Implementation)
         function triggerFireworks() {
-            const duration = 5 * 1000;
-            const animationEnd = Date.now() + duration;
-            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 999 };
-            const randomInRange = (min, max) => Math.random() * (max - min) + min;
-            const interval = setInterval(() => {
-                const timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) return clearInterval(interval);
-                const particleCount = 50 * (timeLeft / duration);
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-            }, 250);
+            try {
+                if (typeof confetti === 'function') {
+                    const duration = 5 * 1000;
+                    const animationEnd = Date.now() + duration;
+                    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 999 };
+                    const randomInRange = (min, max) => Math.random() * (max - min) + min;
+                    
+                    const interval = setInterval(() => {
+                        const timeLeft = animationEnd - Date.now();
+                        if (timeLeft <= 0) return clearInterval(interval);
+                        
+                        const particleCount = 50 * (timeLeft / duration);
+                        confetti(Object.assign({}, defaults, { 
+                            particleCount, 
+                            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } 
+                        }));
+                        confetti(Object.assign({}, defaults, { 
+                            particleCount, 
+                            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } 
+                        }));
+                    }, 250);
+                }
+            } catch (e) {
+                console.log("Fireworks skipped to prevent error: ", e);
+            }
         }
-        setTimeout(triggerFireworks, 3000);
-        setInterval(triggerFireworks, 45000);
+
+        // Trigger strictly after load to avoid getBoundingClientRect errors on elements not yet rendered
+        window.addEventListener('load', () => {
+            setTimeout(triggerFireworks, 3000);
+            setInterval(triggerFireworks, 45000);
+        });
 
     </script>
 </body>
